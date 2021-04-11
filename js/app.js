@@ -43,6 +43,8 @@ var chartGroup = svg.append("g")
 
 // Load data from data.csv
 d3.csv("./data/data.csv").then((personData) => {
+ 
+
     // View data on console log
     console.log(personData); // 51 array. Each array contains 19 objects.
 
@@ -57,31 +59,51 @@ d3.csv("./data/data.csv").then((personData) => {
     //     console.log(key, value);
     // });
 
+    // Parse data
+    personData.forEach((d)=> {
+        d.poverty = +d.poverty;
+        d.healthcare = +d.healthcare;
+    });
+
+
     ////////// SCALE FOR CHART WIDTH AND CHART HEIGHT FOR AXES AND DRAWLINE FUNCTION (based on data) //////////
 
     // Configure a time scale with a range between 0 and the chartWidth
     // Set the domain for the xTimeScale function
     // d3.extent returns the an array containing the min and max values for the property specified
-    var xTimeScale = d3.scaleTime()
+    var xLinearScale = d3.scaleLinear()
     .range([0, chartWidth])
-    .domain(d3.extent(personData, obj => obj.poverty));
+    .domain(d3.extent(personData, d => d.poverty));
 
     // Configure a linear scale with a range between the chartHeight and 0
     // Set the domain for the xLinearScale function
     var yLinearScale = d3.scaleLinear()
     .range([chartHeight, 0])
-    .domain([0, d3.max(personData, obj => obj.healthcare)]);
+    .domain([0, d3.max(personData, d => d.healthcare)]);
 
     // Create two new functions passing the scales in as arguments
     // These will be used to create the chart's axes
-    var bottomAxis = d3.axisBottom(xTimeScale);
+    var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
 
     // Configure a drawLine function which will use the scales to plot the line's points
-    var drawLine = d3
-    .line()
-    .x(obj => xTimeScale(obj.poverty))
-    .y(obj => yLinearScale(obj.healthcare));
+    // var drawLine = d3
+    // .line()
+    // .x(d => xTimeScale(d.poverty))
+    // .y(d => yLinearScale(d.healthcare));
+
+    // append x axis
+    var xAxis = chartGroup.append("g")
+        .classed("x-axis", true)
+        .attr("transform", `translate(0, ${chartHeight})`)
+        .call(bottomAxis);
+
+    // append y axis
+    chartGroup.append("g")
+    .call(leftAxis);
+    
+
+
 
 
 
