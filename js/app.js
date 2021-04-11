@@ -3,11 +3,12 @@
 /////////////////////////////////////////////////
 
 
-
 // - Create a scatter plot between two of the data variables such as 
-//   Healthcare vs. Poverty or Smokers vs. Age.
+//   Healthcare (y-axis)  vs. Poverty (x-axis) or Smokers vs. Age.
 //     - Each state is represented by a circle element in the scatterplot. Include state abbreviations in the circles.
 //     - Create and situate your axes and labels to the left and bottom of the chart.
+
+// Chosen Scatterplot: Healthcare (y-axis)  vs. Poverty (x-axis)
 
 
 //////// CHART DIMENSIONS AND LOCATION IN HTML CODE ////////
@@ -69,14 +70,14 @@ d3.csv("./data/data.csv").then((personData) => {
     ////////// SCALE FOR CHART WIDTH AND CHART HEIGHT FOR AXES AND DRAWLINE FUNCTION (based on data) //////////
 
     // Configure a time scale with a range between 0 and the chartWidth
-    // Set the domain for the xTimeScale function
+    // Set the domain for the xLinearScale function
     // d3.extent returns the an array containing the min and max values for the property specified
     var xLinearScale = d3.scaleLinear()
     .range([0, chartWidth])
     .domain(d3.extent(personData, d => d.poverty));
 
     // Configure a linear scale with a range between the chartHeight and 0
-    // Set the domain for the xLinearScale function
+    // Set the domain for the yLinearScale function
     var yLinearScale = d3.scaleLinear()
     .range([chartHeight, 0])
     .domain([0, d3.max(personData, d => d.healthcare)]);
@@ -94,18 +95,24 @@ d3.csv("./data/data.csv").then((personData) => {
 
     // append x axis
     var xAxis = chartGroup.append("g")
-        .classed("x-axis", true)
+        // .classed("x-axis", true)
         .attr("transform", `translate(0, ${chartHeight})`)
         .call(bottomAxis);
 
     // append y axis
     chartGroup.append("g")
     .call(leftAxis);
+
+    // append circles
+    var circlesGroup = chartGroup.selectAll("circle")
+    .data(personData)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xLinearScale(d.poverty))
+    .attr("cy", d => yLinearScale(d.healthcare))
+    .attr("r", 15)
+    .attr("fill", "pink")
+    .attr("opacity", ".5");
+
     
-
-
-
-
-
-
 });
