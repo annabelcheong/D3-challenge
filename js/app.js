@@ -136,7 +136,8 @@ d3.csv("./data/data.csv").then((personData) => {
     .text("In Poverty (%)")
     // .attr("font-size","30px")
     // .classed("aText", true);
-    .attr("class", "aText");
+    .attr("class", "aText")
+    .attr("font-weight","700");
 
 
     // append y axis
@@ -145,7 +146,8 @@ d3.csv("./data/data.csv").then((personData) => {
     .attr("y", 0 - margin.left) //x-coord location
     .attr("x", 0 - (chartHeight - chartHeight/3)) //y-coord location
     .attr("dy", "1em")
-    .text("Lacks Healthcare (%)");
+    .text("Lacks Healthcare (%)")
+    .attr("font-weight","700");
     // .attr("class", "aText");
     // .classed("aText", true);
 
