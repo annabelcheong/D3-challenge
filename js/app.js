@@ -126,4 +126,17 @@ d3.csv("./data/data.csv").then((personData) => {
     .attr("text-anchor","middle")
     .attr("fill","darkgreen");
    
+    // append y axis
+    chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (chartHeight - chartHeight/3))
+    .attr("dy", "1em")
+    .classed("axis-text", true)
+    .text("Lacks Healthcare (%)");
+
+
+
+
+
 });
