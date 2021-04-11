@@ -114,5 +114,16 @@ d3.csv("./data/data.csv").then((personData) => {
     .attr("fill", "pink")
     .attr("opacity", ".5");
 
-    
+    // append text (state abbreviation) into circles
+    var circlesText = chartGroup.selectAll("circleText")
+    .data(personData)
+    .enter()
+    .append("text")
+    .attr("x", d => xLinearScale(d.poverty))
+    .attr("y", d => yLinearScale(d.healthcare)+5)
+    .text(d=> (d.abbr))
+    .attr("font-size","15px")
+    .attr("text-anchor","middle")
+    .attr("fill","darkgreen");
+   
 });
