@@ -111,7 +111,9 @@ d3.csv("./data/data.csv").then((personData) => {
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", 15)
-    .attr("fill", "pink")
+    .attr("class","stateCircle")
+    // .classed("stateCircle", true)
+    // .attr("fill", "pink")
     .attr("opacity", ".5");
 
     // append text (state abbreviation) into circles
@@ -123,20 +125,28 @@ d3.csv("./data/data.csv").then((personData) => {
     .attr("y", d => yLinearScale(d.healthcare)+5)
     .text(d=> (d.abbr))
     .attr("font-size","15px")
-    .attr("text-anchor","middle")
-    .attr("fill","darkgreen");
+    // .attr("fill","darkgreen")
+    .attr("class", "stateText");
    
+    // append x axis
+    chartGroup.append("text")
+    // .attr("transform", `translate(${chartWidth / 2}, ${chartHeight)`)
+    .attr("x", chartWidth/2)
+    .attr("y", chartHeight + 50)   
+    .text("In Poverty (%)")
+    // .attr("font-size","30px")
+    // .classed("aText", true);
+    .attr("class", "aText");
+
+
     // append y axis
     chartGroup.append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", 0 - margin.left)
-    .attr("x", 0 - (chartHeight - chartHeight/3))
+    .attr("y", 0 - margin.left) //x-coord location
+    .attr("x", 0 - (chartHeight - chartHeight/3)) //y-coord location
     .attr("dy", "1em")
-    .classed("axis-text", true)
     .text("Lacks Healthcare (%)");
-
-
-
-
+    // .attr("class", "aText");
+    // .classed("aText", true);
 
 });
