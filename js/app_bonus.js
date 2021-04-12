@@ -48,7 +48,7 @@ function makeResponsive(){
   var margin = {
     top: 60,
     right: 60,
-    bottom: 60,
+    bottom: 100,
     left: 60
   };
 
@@ -125,15 +125,15 @@ function makeResponsive(){
   // Load data from data.csv
   d3.csv("./data/data.csv").then((personData) => {
       
-      // View data on console log
-      console.log(personData); // 51 array. Each array contains 19 objects.
+      // // View data on console log
+      // console.log(personData); // 51 array. Each array contains 19 objects.
 
-      // TEST TO CONSOLE LOG FOR EACH PERSON ID, THE POVERTY VALUE (x-axis), THE HEALTHCARE VALUE (y-axis)
-      // Attain the poverty values in the objects (i.e. for each person id)
-      personData.forEach((obj) => {
-      console.log(obj.poverty);
-      console.log(obj.healthcare);
-      });
+      // // TEST TO CONSOLE LOG FOR EACH PERSON ID, THE POVERTY VALUE (x-axis), THE HEALTHCARE VALUE (y-axis)
+      // // Attain the poverty values in the objects (i.e. for each person id)
+      // personData.forEach((obj) => {
+      // console.log(obj.poverty);
+      // console.log(obj.healthcare);
+      // });
 
       // Parse data
       personData.forEach((d)=> {
@@ -146,7 +146,6 @@ function makeResponsive(){
           d.smokes = +d.smokes;
           d.obesity = +d.obesity;
       });
-
 
       ////////// SCALE FOR CHART WIDTH AND CHART HEIGHT FOR AXES AND DRAWLINE FUNCTION (based on data) //////////
 
@@ -176,6 +175,7 @@ function makeResponsive(){
 
       // append x axis
       var xAxis = chartGroup.append("g")
+          .classed("x-axis", true)
           .attr("transform", `translate(0, ${chartHeight})`)
           .call(bottomAxis);
 
@@ -211,12 +211,12 @@ function makeResponsive(){
       // Create group for 3 x-axis labels (poverty, age, income)
       // Overall Location of labels
       var labelsGroup = chartGroup.append("g")
-      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight +20})`);
+      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 40})`);
 
       //X-Axis Label Groups
       var povertyLabel = labelsGroup.append("text")
-        .attr("x,",0)
-        .attr("y",10)
+        .attr("x",0)
+        .attr("y",0)
         .attr("value","poverty") // Value to grab for event listener
         .classed("active", true)
         .text("In Poverty (%)");
@@ -230,7 +230,7 @@ function makeResponsive(){
 
       var incomeLabel = labelsGroup.append("text")
         .attr("x",0)
-        .attr("y",30)
+        .attr("y",40)
         .attr("value","income") // Value to grab for event listener
         .classed("inactive", true)
         .text("Household Income (Median)");
