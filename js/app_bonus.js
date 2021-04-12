@@ -87,7 +87,7 @@ function makeResponsive(){
   // Function used for updating X-AXIS upon click of x-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderAxes(newXScale, XAxis){
+  function renderAxes(newXScale, xAxis){
     var bottomAxis = d3.axisBottom(newXScale);
 
     xAxis.transition()
@@ -106,6 +106,8 @@ function makeResponsive(){
     circlesGroup.transition()
       .duration(1000)
       .attr("cx", d => newXScale(d[chosenXAxis]));
+
+    return circlesGroup;
   }
 
   ///////////////////////
@@ -117,6 +119,8 @@ function makeResponsive(){
     circlesText.transition()
       .duration(1000)
       .attr("x", d => newXScale(d[chosenXAxis]));
+
+    return circlesText;
   }
 
 
@@ -259,7 +263,7 @@ function makeResponsive(){
 
       labelsGroup.selectAll("text").on("click", function(){
         // Get value of selection
-        var value = d3.select(this).attr("value")
+        var value = d3.select(this).attr("value");
 
         // if value does not equal ChosenXAxis, do the following
         if (value !== chosenXAxis) {
@@ -267,10 +271,10 @@ function makeResponsive(){
           // Replace chosenXAxis with value
           chosenXAxis = value;
 
-          console.log(chosenXAxis)
+          console.log(chosenXAxis);
 
           // Updates x scale with selected data
-          xLinearScale=xScale(personData, chosenXAxis);
+          xLinearScale = xScale(personData, chosenXAxis);
 
           // Updates x-axis with transition 
           // *Calls function renderAxes be used
@@ -324,9 +328,7 @@ function makeResponsive(){
 
         }
 
-
       });
-
 
   });
 
