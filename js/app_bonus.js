@@ -70,7 +70,9 @@ function makeResponsive(){
   var chosenXAxis = "poverty"
   var chosenYAxis = "healthcare"
 
-  // Function used for updating x-scale upon click of x-label 
+  ///////////////////////
+  // Function used for updating X-SCALE upon click of x-label 
+  //////////////////////
   function xScale(personData, chosenXAxis){
     // Create Scales
     var xLinearScale = d3.scaleLinear()
@@ -80,6 +82,43 @@ function makeResponsive(){
       return xLinearScale;
 
   }
+
+  ///////////////////////
+  // Function used for updating X-AXIS upon click of x-label 
+  // *Transitions: setting duration 
+  //////////////////////
+  function renderAxes(newXScale, XAxis){
+    var bottomAxis = d3.axisBottom(newXScale);
+
+    xAxis.transition()
+      .duration(1000)
+      .call(bottomAxis);
+    
+    return xAxis;
+  }
+
+  ///////////////////////
+  // Function used for updating CIRCLES upon click of x-label 
+  // *Transitions: setting duration 
+  //////////////////////
+  function renderCircles(circlesGroup, newXScale, chosenXAxis){
+    
+    circlesGroup.transition()
+      .duration(1000)
+      .attr("cx", d => newXScale(d[chosenXAxis]));
+  }
+
+  ///////////////////////
+  // Function used for updating CIRCLES TEXT (state abbr) upon click of x-label 
+  // *Transitions: setting duration 
+  //////////////////////
+  function renderCirclesText(circlesText, newXScale, chosenXAxis){
+    
+    circlesText.transition()
+      .duration(1000)
+      .attr("x", d => newXScale(d[chosenXAxis]));
+  }
+
 
   //////// DATA SOURCE (CSV FILE) ////////
 
@@ -121,7 +160,7 @@ function makeResponsive(){
       // .domain(d3.extent(personData, d => d.poverty));
 
       // xLinearScale: Call in function xScale
-      var xLinearScale = xScale(hairData, chosenXAxis);
+      var xLinearScale = xScale(personData, chosenXAxis);
 
       // Configure a linear scale with a range between the chartHeight and 0
       // Set the domain for the yLinearScale function
@@ -172,7 +211,7 @@ function makeResponsive(){
       // Create group for 3 x-axis labels (poverty, age, income)
       // Overall Location of labels
       var labelsGroup = chartGroup.append("g")
-      .attr("transform", `translate(${width / 2}, ${height +20})`);
+      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight +20})`);
 
       //X-Axis Label Groups
       var povertyLabel = labelsGroup.append("text")
@@ -228,12 +267,14 @@ function makeResponsive(){
           // Replace chosenXAxis with value
           chosenXAxis = value;
 
+          console.log(chosenXAxis)
+
           // Updates x scale with selected data
           xLinearScale=xScale(personData, chosenXAxis);
 
           // Updates x-axis with transition 
           // *Calls function renderAxes be used
-          xAxis renderAxes(xLinearScale,xAxis);
+          xAxis = renderAxes(xLinearScale, xAxis);
 
           // Update circles with new x-values
           // *Calls function renderCircles be used
@@ -285,8 +326,6 @@ function makeResponsive(){
 
 
       });
-
-
 
 
   });
