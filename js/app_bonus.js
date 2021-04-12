@@ -246,18 +246,39 @@ function makeResponsive(){
           // Change classes when chosenXAxis is selected. 
           // Class 'active' has bold text
           if (chosenXAxis === "poverty"){
-            pass
-
+            povertyLabel
+              .classed("active", true)
+              .classed("inactive", false);
+            ageLabel 
+              .classed("active", false)
+              .classed("inactive", true);
+            incomeLabel
+              .classed("active", false)
+              .classed("inactive", true);
           }
 
           if (chosenXAxis === "age"){
-            pass
-
+            povertyLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            ageLabel 
+              .classed("active", true)
+              .classed("inactive", false);
+            incomeLabel
+              .classed("active", false)
+              .classed("inactive", true);
           }
 
-          if )chosenXAxis === "income"){
-            pass
-
+          if (chosenXAxis === "income"){
+            povertyLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            ageLabel 
+              .classed("active", false)
+              .classed("inactive", true);
+            incomeLabel
+              .classed("active", true)
+              .classed("inactive", false);
           }
 
         }
