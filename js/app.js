@@ -55,7 +55,7 @@ function makeResponsive(){
   var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-
+  
   //////// DATA SOURCE (CSV FILE) ////////
 
   // Load data from data.csv
