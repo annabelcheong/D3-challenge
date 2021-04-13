@@ -47,9 +47,9 @@ function makeResponsive(){
   // Define the chart's margins as an object
   var margin = {
     top: 60,
-    right: 60,
+    right: 80,
     bottom: 100,
-    left: 60
+    left: 100
   };
 
   // Define dimensions of the chart area
@@ -319,22 +319,22 @@ function makeResponsive(){
      
       //Y-Axis Label Groups
       var healthcareLabel = labelsGroup.append("text")
-        .attr("x",0)
-        .attr("y",0)
+        .attr("x",-chartHeight/2)
+        .attr("y",-80)
         .attr("value","poverty") // Value to grab for event listener
         .classed("active", true)
         .text("Lacks Heathcare (%)");
 
       var smokesLabel = labelsGroup.append("text")
-        .attr("x",0)
-        .attr("y",20)
+        .attr("x",-chartHeight/2)
+        .attr("y",-60)
         .attr("value","smokes") // Value to grab for event listener
         .classed("inactive", true)
         .text("Smokes (%)");
 
       var obesityLabel = labelsGroup.append("text")
-        .attr("x",0)
-        .attr("y",40)
+        .attr("x",-chartHeight/2)
+        .attr("y",-40)
         .attr("value","obesity") // Value to grab for event listener
         .classed("inactive", true)
         .text("Obese (%)");
