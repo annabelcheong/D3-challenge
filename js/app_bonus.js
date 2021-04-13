@@ -182,6 +182,65 @@ function makeResponsive(){
     return circlesText;
   }
 
+  ///////////////////////
+  // Function used for tooltip when scrolling over (mouseover event) circlesGroup
+  // *Transitions: setting duration 
+  //////////////////////
+
+  function updateToolTip(chosenXAxis, circlesGroup) {
+
+    // X-axis labels
+    var xlabel;
+
+    if (chosenXAxis === "poverty") {
+      xlabel = "poverty:";
+    }
+    if (chosenXAxis === "age") {
+      xlabel = "age:";
+    }
+    else {
+      xlabel = "income";
+    }
+    
+    // Y-axis labels
+    var ylabel;
+
+    if (chosenYAxis === "healthcare"){
+      ylabel = "healthcare:";
+    }
+    if (chosenYAxis === "smokes"){
+      ylabel = "smokes:";
+    }
+    else {
+      ylabel = "obese:";
+    }
+
+  // Using d3.tip() to display tooltip
+
+  var toolTip = d3.tip()
+    .attr("class","tooltip")
+    .offset([80,-60])
+    .html(function(d) { 
+      return 'hello'
+      // return (`${d.state}<br>${xlabel}: ${d[chosenXAxis]}
+      // ${ylabel}: ${d[chosenYAxis]} %`);
+    });
+  
+    circlesGroup.call(toolTip);
+
+    // TOOLTIP EVENT LISTENER (on when to show tooltip)
+    // On mouseover
+    circlesGroup.on("mouseover", function(data){
+      toolTip.show(data);
+    });
+    // On mouseout
+    circlesGroup.on("mouseout", function(data, index){
+      toolTip.hide(data);
+    });
+  
+  return circlesGroup;
+
+  };
 
 
 
@@ -347,6 +406,13 @@ function makeResponsive(){
       // .attr("dy", "1em")
       // .text("Lacks Healthcare (%)")
       // .attr("font-weight","700");
+
+      //////// TOOLTIP ////////
+      // Update the tooltip (Call function updateToolTip)
+      /////////////////////////
+      var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+
 
       ////////////////////////////////////////
       // EVENT LISTENERS FOR AXES
