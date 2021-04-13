@@ -187,7 +187,7 @@ function makeResponsive(){
   // *Transitions: setting duration 
   //////////////////////
 
-  function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
+  function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, circlesText) {
 
     var toolTip = d3.tip()
     .attr("class","d3-tip")
@@ -234,6 +234,7 @@ function makeResponsive(){
 
     });
   
+    // CIRCLES GROUP TOOLTIP
     circlesGroup.call(toolTip);
 
     // TOOLTIP EVENT LISTENER (on when to show tooltip)
@@ -246,9 +247,27 @@ function makeResponsive(){
       toolTip.hide(data);
     });
   
-   return circlesGroup;
-    
+    // CIRCLES TEXT TOOLTIP
+    circlesText.call(toolTip);
+
+    // TOOLTIP EVENT LISTENER (on when to show tooltip)
+    // On mouseover
+    circlesText.on("mouseover", function(data){
+      toolTip.show(data);
+    });
+    // On mouseout
+    circlesText.on("mouseout", function(data){
+      toolTip.hide(data);
+    });
+
+   return circlesGroup, circlesText;
    
+
+  
+
+
+
+
   };
 
   //////// DATA SOURCE (CSV FILE) ////////
@@ -418,7 +437,7 @@ function makeResponsive(){
       //////// TOOLTIP ////////
       // Update the tooltip (Call function updateToolTip)
       /////////////////////////
-      var circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+      var circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, circlesText);
 
       ////////////////////////////////////////
       // EVENT LISTENERS FOR AXES
@@ -456,7 +475,7 @@ function makeResponsive(){
           circlesText = renderXCirclesText(circlesText, xLinearScale, chosenXAxis);
 
           // Updates Tooltips with New Information
-          circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+          circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, circlesText);
 
 
           // Change classes when chosenXAxis is selected. 
@@ -534,7 +553,7 @@ function makeResponsive(){
           circlesText = renderYCirclesText(circlesText, yLinearScale, chosenYAxis);
 
           // Updates Tooltips with New Information
-          circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+          circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, circlesText);
 
           // Change classes when chosenYAxis is selected. 
           // Class 'active' has bold text
