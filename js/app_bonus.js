@@ -241,8 +241,9 @@ function makeResponsive(){
           .call(bottomAxis);
 
       // append y axis
-      chartGroup.append("g")
-      .call(leftAxis);
+      var yAxis = chartGroup.append("g")
+        .classed("y-axis", true)
+        .call(leftAxis);
 
       // append circles
       var circlesGroup = chartGroup.selectAll("circle")
