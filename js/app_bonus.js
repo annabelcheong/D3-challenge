@@ -148,7 +148,7 @@ function makeResponsive(){
   // *Transitions: setting duration 
   //////////////////////
   function renderAxes(newYScale, yAxis){
-    var leftAxis = d3.axisBottom(newYScale);
+    var leftAxis = d3.axisLeft(newYScale);
 
     yAxis.transition()
       .duration(1000)
@@ -174,11 +174,11 @@ function makeResponsive(){
   // Function used for updating CIRCLES TEXT (state abbr) upon click of y-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderCirclesText(circlesText, newXScale, chosenXAxis){
+  function renderCirclesText(circlesText, newYScale, chosenYAxis){
     
     circlesText.transition()
       .duration(1000)
-      .attr("x", d => newXScale(d[chosenYAxis]));
+      .attr("y", d => newYScale(d[chosenYAxis]));
 
     return circlesText;
   }
@@ -437,13 +437,13 @@ function makeResponsive(){
         // if value does not equal ChosenXAxis, do the following
         if (value !== chosenYAxis) {
 
-          // Replace chosenXAxis with value
+          // Replace chosenYAxis with value
           chosenYAxis = value;
 
           console.log(chosenYAxis);
 
           // Updates y scale with selected data
-          yLinearScale = xScale(personData, chosenYAxis);
+          yLinearScale = yScale(personData, chosenYAxis);
 
           // Updates y-axis with transition 
           // *Calls function renderAxes be used
