@@ -70,6 +70,10 @@ function makeResponsive(){
   var chosenXAxis = "poverty"
   var chosenYAxis = "healthcare"
 
+/////////////////////////////////////////////////////////
+// X-AXIS FUNCTIONS
+/////////////////////////////////////////////////////////
+
   ///////////////////////
   // Function used for updating X-SCALE upon click of x-label 
   //////////////////////
@@ -80,7 +84,6 @@ function makeResponsive(){
       .domain(d3.extent(personData, d => d[chosenXAxis]));
     
       return xLinearScale;
-
   }
 
   ///////////////////////
@@ -122,6 +125,65 @@ function makeResponsive(){
 
     return circlesText;
   }
+
+  /////////////////////////////////////////////////////////
+  // Y-AXIS FUNCTIONS
+  /////////////////////////////////////////////////////////
+
+  ///////////////////////
+  // Function used for updating Y-SCALE upon click of y-label 
+  //////////////////////
+  function yScale(personData, chosenYAxis){
+    // Create Scales
+    var yLinearScale = d3.scaleLinear()
+      .range([chartHeight, 0])
+      .domain(d3.extent(personData, d => d[chosenYAxis]));
+    
+      return yLinearScale;
+
+  }
+
+  ///////////////////////
+  // Function used for updating Y-AXIS upon click of y-label 
+  // *Transitions: setting duration 
+  //////////////////////
+  function renderAxes(newYScale, yAxis){
+    var leftAxis = d3.axisBottom(newYScale);
+
+    yAxis.transition()
+      .duration(1000)
+      .call(leftAxis);
+    
+    return yAxis;
+  }
+
+  ///////////////////////
+  // Function used for updating CIRCLES upon click of y-label 
+  // *Transitions: setting duration 
+  //////////////////////
+  function renderCircles(circlesGroup, newYScale, chosenYAxis){
+    
+    circlesGroup.transition()
+      .duration(1000)
+      .attr("cy", d => newXScale(d[chosenYAxis]));
+
+    return circlesGroup;
+  }
+
+  ///////////////////////
+  // Function used for updating CIRCLES TEXT (state abbr) upon click of y-label 
+  // *Transitions: setting duration 
+  //////////////////////
+  function renderCirclesText(circlesText, newXScale, chosenXAxis){
+    
+    circlesText.transition()
+      .duration(1000)
+      .attr("x", d => newXScale(d[chosenYAxis]));
+
+    return circlesText;
+  }
+
+
 
 
   //////// DATA SOURCE (CSV FILE) ////////
@@ -165,13 +227,9 @@ function makeResponsive(){
       // xLinearScale: Call in function xScale
       var xLinearScale = xScale(personData, chosenXAxis);
 
-      // Configure a linear scale with a range between the chartHeight and 0
-      // Set the domain for the yLinearScale function
-      // yLinearScale
-      var yLinearScale = d3.scaleLinear()
-      .range([chartHeight, 0])
-      .domain([0, d3.max(personData, d => d.healthcare)]);
-
+      // yLinearScale: Callin in function yScale
+      var yLinearScale = yScale(personData, chosenYAxis);
+   
       // Create two new functions passing the scales in as arguments
       // These will be used to create the chart's axes
       var bottomAxis = d3.axisBottom(xLinearScale);
@@ -193,7 +251,7 @@ function makeResponsive(){
       .enter()
       .append("circle")
       .attr("cx", d => xLinearScale(d[chosenXAxis]))
-      .attr("cy", d => yLinearScale(d.healthcare))
+      .attr("cy", d => yLinearScale(d[chosenYAxis]))
       .attr("r", 15)
       .attr("class","stateCircle")
       .attr("opacity", ".5");
@@ -204,13 +262,17 @@ function makeResponsive(){
       .enter()
       .append("text")
       .attr("x", d => xLinearScale(d[chosenXAxis]))
-      .attr("y", d => yLinearScale(d.healthcare)+5)
+      .attr("y", d => yLinearScale(d[chosenYAxis])+5)
       .text(d=> (d.abbr))
       .attr("font-size","15px")
       .attr("class", "stateText");
     
+      ////////////////////////////////////////
+      // APPEND AXES LABELS
+      ////////////////////////////////////////
+
       //////////////////////////
-      //// append x axis and y axis label
+      //// append x axis labels
       //////////////////////////
       // Create group for 3 x-axis labels (poverty, age, income)
       // Overall Location of labels
@@ -247,18 +309,51 @@ function makeResponsive(){
       // .attr("class", "aText")
       // .attr("font-weight","700");
 
+      //////////////////////////
+      //// append y axis labels
+      //////////////////////////
+      // Create group for 3 y-axis labels (healthcare, smokes, obese)
+      // Overall Location of labels
+      var labelsGroup = chartGroup.append("g")
+        .attr("transform", "rotate(-90)");
+     
+      //Y-Axis Label Groups
+      var healthcareLabel = labelsGroup.append("text")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("value","poverty") // Value to grab for event listener
+        .classed("active", true)
+        .text("Lacks Heathcare (%)");
 
-      //// append y axis label
-      chartGroup.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 10) //x-coord location
-      .attr("x", 0 - (chartHeight - chartHeight/3)) //y-coord location 
-      .attr("dy", "1em")
-      .text("Lacks Healthcare (%)")
-      .attr("font-weight","700");
+      var smokesLabel = labelsGroup.append("text")
+        .attr("x",0)
+        .attr("y",20)
+        .attr("value","smokes") // Value to grab for event listener
+        .classed("inactive", true)
+        .text("Smokes (%)");
 
-       //////////////////////////
-      //// EVENT LISTENER for x-axis and y-axis labels 
+      var obesityLabel = labelsGroup.append("text")
+        .attr("x",0)
+        .attr("y",40)
+        .attr("value","obesity") // Value to grab for event listener
+        .classed("inactive", true)
+        .text("Obese (%)");
+
+      // REMOVE FOLLOWING *THIS CODE PROVIDES NO SELECTION OPTION FOR Y-AXIS)
+      // chartGroup.append("text")
+      // .attr("transform", "rotate(-90)")
+      // .attr("y", 0 - margin.left + 10) //x-coord location
+      // .attr("x", 0 - (chartHeight - chartHeight/3)) //y-coord location 
+      // .attr("dy", "1em")
+      // .text("Lacks Healthcare (%)")
+      // .attr("font-weight","700");
+
+      ////////////////////////////////////////
+      // EVENT LISTENERS FOR AXES
+      ////////////////////////////////////////
+
+      //////////////////////////
+      //// EVENT LISTENER for x-axis labels 
       //////////////////////////
 
       labelsGroup.selectAll("text").on("click", function(){
@@ -328,8 +423,81 @@ function makeResponsive(){
 
         }
 
-      });
+      }); 
 
+
+      //////////////////////////
+      //// EVENT LISTENER for y-axis labels 
+      //////////////////////////
+
+      labelsGroup.selectAll("text").on("click", function(){
+        // Get value of selection
+        var value = d3.select(this).attr("value");
+
+        // if value does not equal ChosenXAxis, do the following
+        if (value !== chosenYAxis) {
+
+          // Replace chosenXAxis with value
+          chosenYAxis = value;
+
+          console.log(chosenYAxis);
+
+          // Updates y scale with selected data
+          yLinearScale = xScale(personData, chosenYAxis);
+
+          // Updates y-axis with transition 
+          // *Calls function renderAxes be used
+          yAxis = renderAxes(yLinearScale, yAxis);
+
+          // Update circles with new y-values
+          // *Calls function renderCircles be used
+          circlesGroup = renderCircles(circlesGroup, yLinearScale, chosenYAxis);
+
+          // Update circles with new y-values (state abbr)
+          // *Calls function renderCirclesText be used
+          circlesText = renderCirclesText(circlesText, yLinearScale, chosenYAxis);
+
+          // Change classes when chosenYAxis is selected. 
+          // Class 'active' has bold text
+          if (chosenYAxis === "healthcare"){
+            healthcareLabel
+              .classed("active", true)
+              .classed("inactive", false);
+            smokesLabel 
+              .classed("active", false)
+              .classed("inactive", true);
+            obesityLabel
+              .classed("active", false)
+              .classed("inactive", true);
+          }
+
+          if (chosenYAxis === "smokes"){
+            healthcareLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            smokesLabel 
+              .classed("active", true)
+              .classed("inactive", false);
+            obesityLabel
+              .classed("active", false)
+              .classed("inactive", true);
+          }
+
+          if (chosenYAxis === "obesity"){
+            healthcareLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            smokesLabel 
+              .classed("active", false)
+              .classed("inactive", true);
+            obesityLabel
+              .classed("active", true)
+              .classed("inactive", false);
+          }
+
+        }
+
+      }); 
   });
 
 }
