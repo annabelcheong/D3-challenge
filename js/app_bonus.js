@@ -195,31 +195,33 @@ function makeResponsive(){
     .html(function(d) { 
 
       // X-axis labels
-      // var xlabel;
-      let xlabel = "";
+      var xlabel;
+      console.log(chosenXAxis);
       if (chosenXAxis === "poverty") {
-        xlabel = "poverty:";
-        pre_xlabelUnit = " "
-        post_xlabelUnit = "%"
+        xlabel = "Poverty:";
+        pre_xlabelUnit = " ";
+        post_xlabelUnit = "%";
       }
-      if (chosenXAxis === "age") {
-        xlabel = "age:";
-        pre_xlabelUnit = " "
-        post_xlabelUnit = "years"
+      
+      else if (chosenXAxis === "age") {
+        xlabel = "Age:";
+        pre_xlabelUnit = " ";
+        post_xlabelUnit = "years";
       }
-      else {
-        xlabel = "income";
-        pre_xlabelUnit = "$"
-        post_xlabelUnit = "k"
+
+      else { 
+        xlabel = "Income:";
+        pre_xlabelUnit = "$";
+        post_xlabelUnit = "k";
       }
       
       // Y-axis labels
-      // var ylabel;
-      let ylabel = "";
+      var ylabel;
+      console.log(chosenYAxis);
       if (chosenYAxis === "healthcare"){
         ylabel = "Healthcare:";
       }
-      if (chosenYAxis === "smokes"){
+      else if (chosenYAxis === "smokes"){
         ylabel = "Smokers:";
       }
       else {
@@ -245,14 +247,9 @@ function makeResponsive(){
     });
   
    return circlesGroup;
-
+    
+   
   };
-
-
-
-
-
-
 
   //////// DATA SOURCE (CSV FILE) ////////
 
@@ -417,12 +414,11 @@ function makeResponsive(){
       // .text("Lacks Healthcare (%)")
       // .attr("font-weight","700");
 
+  
       //////// TOOLTIP ////////
       // Update the tooltip (Call function updateToolTip)
       /////////////////////////
-      var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
-
-
+      var circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
       ////////////////////////////////////////
       // EVENT LISTENERS FOR AXES
@@ -458,6 +454,10 @@ function makeResponsive(){
           // Update circles with new x-values (state abbr)
           // *Calls function renderXCirclesText be used
           circlesText = renderXCirclesText(circlesText, xLinearScale, chosenXAxis);
+
+          // Updates Tooltips with New Information
+          circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
 
           // Change classes when chosenXAxis is selected. 
           // Class 'active' has bold text
@@ -532,6 +532,9 @@ function makeResponsive(){
           // Update circles with new y-values (state abbr)
           // *Calls function renderYCirclesText be used
           circlesText = renderYCirclesText(circlesText, yLinearScale, chosenYAxis);
+
+          // Updates Tooltips with New Information
+          circlesGroupTT = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
           // Change classes when chosenYAxis is selected. 
           // Class 'active' has bold text
