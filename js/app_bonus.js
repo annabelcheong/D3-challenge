@@ -165,7 +165,7 @@ function makeResponsive(){
     
     circlesGroup.transition()
       .duration(1000)
-      .attr("cy", d => newXScale(d[chosenYAxis]));
+      .attr("cy", d => newYScale(d[chosenYAxis]));
 
     return circlesGroup;
   }
