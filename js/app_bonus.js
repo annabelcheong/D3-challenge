@@ -191,12 +191,12 @@ function makeResponsive(){
 
     var toolTip = d3.tip()
     .attr("class","d3-tip")
-    // .classed("d3-tip",true)
     .offset([0,0])
     .html(function(d) { 
 
       // X-axis labels
-      var xlabel;
+      // var xlabel;
+      let xlabel = "";
       if (chosenXAxis === "poverty") {
         xlabel = "poverty:";
         pre_xlabelUnit = " "
@@ -214,19 +214,20 @@ function makeResponsive(){
       }
       
       // Y-axis labels
-      var ylabel;
+      // var ylabel;
+      let ylabel = "";
       if (chosenYAxis === "healthcare"){
-        ylabel = "healthcare:";
+        ylabel = "Healthcare:";
       }
       if (chosenYAxis === "smokes"){
-        ylabel = "smokes:";
+        ylabel = "Smokers:";
       }
       else {
-        ylabel = "obese:";
+        ylabel = "Obesity:";
       }
 
     // Using d3.tip() to display tooltip
-    return (`<b>${d.state}</b><br>${xlabel}: ${pre_xlabelUnit}${d[chosenXAxis]} ${post_xlabelUnit}<br>
+    return (`<b>${d.state}</b><br>${xlabel} ${pre_xlabelUnit}${d[chosenXAxis]} ${post_xlabelUnit}<br>
       ${ylabel} ${d[chosenYAxis]} %`);
 
     });
@@ -237,14 +238,13 @@ function makeResponsive(){
     // On mouseover
     circlesGroup.on("mouseover", function(data){
       toolTip.show(data);
-
     });
     // On mouseout
-    circlesGroup.on("mouseout", function(data, index){
+    circlesGroup.on("mouseout", function(data){
       toolTip.hide(data);
     });
   
-  return circlesGroup;
+   return circlesGroup;
 
   };
 
@@ -498,7 +498,7 @@ function makeResponsive(){
           }
 
         }
-
+       
       }); 
 
 
