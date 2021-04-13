@@ -321,7 +321,7 @@ function makeResponsive(){
       var healthcareLabel = yLabelsGroup.append("text")
         .attr("x",-chartHeight/2)
         .attr("y",-80)
-        .attr("value","poverty") // Value to grab for event listener
+        .attr("value","healthcare") // Value to grab for event listener
         .classed("active", true)
         .text("Lacks Heathcare (%)");
 
