@@ -90,7 +90,7 @@ function makeResponsive(){
   // Function used for updating X-AXIS upon click of x-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderAxes(newXScale, xAxis){
+  function renderXAxes(newXScale, xAxis){
     var bottomAxis = d3.axisBottom(newXScale);
 
     xAxis.transition()
@@ -104,7 +104,7 @@ function makeResponsive(){
   // Function used for updating CIRCLES upon click of x-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderCircles(circlesGroup, newXScale, chosenXAxis){
+  function renderXCircles(circlesGroup, newXScale, chosenXAxis){
     
     circlesGroup.transition()
       .duration(1000)
@@ -117,7 +117,7 @@ function makeResponsive(){
   // Function used for updating CIRCLES TEXT (state abbr) upon click of x-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderCirclesText(circlesText, newXScale, chosenXAxis){
+  function renderXCirclesText(circlesText, newXScale, chosenXAxis){
     
     circlesText.transition()
       .duration(1000)
@@ -140,14 +140,13 @@ function makeResponsive(){
       .domain(d3.extent(personData, d => d[chosenYAxis]));
     
       return yLinearScale;
-
   }
 
   ///////////////////////
   // Function used for updating Y-AXIS upon click of y-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderAxes(newYScale, yAxis){
+  function renderYAxes(newYScale, yAxis){
     var leftAxis = d3.axisLeft(newYScale);
 
     yAxis.transition()
@@ -161,7 +160,7 @@ function makeResponsive(){
   // Function used for updating CIRCLES upon click of y-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderCircles(circlesGroup, newYScale, chosenYAxis){
+  function renderYCircles(circlesGroup, newYScale, chosenYAxis){
     
     circlesGroup.transition()
       .duration(1000)
@@ -174,7 +173,7 @@ function makeResponsive(){
   // Function used for updating CIRCLES TEXT (state abbr) upon click of y-label 
   // *Transitions: setting duration 
   //////////////////////
-  function renderCirclesText(circlesText, newYScale, chosenYAxis){
+  function renderYCirclesText(circlesText, newYScale, chosenYAxis){
     
     circlesText.transition()
       .duration(1000)
@@ -276,25 +275,25 @@ function makeResponsive(){
       //////////////////////////
       // Create group for 3 x-axis labels (poverty, age, income)
       // Overall Location of labels
-      var labelsGroup = chartGroup.append("g")
+      var xLabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 40})`);
 
       //X-Axis Label Groups
-      var povertyLabel = labelsGroup.append("text")
+      var povertyLabel = xLabelsGroup.append("text")
         .attr("x",0)
         .attr("y",0)
         .attr("value","poverty") // Value to grab for event listener
         .classed("active", true)
         .text("In Poverty (%)");
 
-      var ageLabel = labelsGroup.append("text")
+      var ageLabel = xLabelsGroup.append("text")
         .attr("x",0)
         .attr("y",20)
         .attr("value","age") // Value to grab for event listener
         .classed("inactive", true)
         .text("Age (Median)");
 
-      var incomeLabel = labelsGroup.append("text")
+      var incomeLabel = xLabelsGroup.append("text")
         .attr("x",0)
         .attr("y",40)
         .attr("value","income") // Value to grab for event listener
@@ -314,25 +313,25 @@ function makeResponsive(){
       //////////////////////////
       // Create group for 3 y-axis labels (healthcare, smokes, obese)
       // Overall Location of labels
-      var labelsGroup = chartGroup.append("g")
+      var yLabelsGroup = chartGroup.append("g")
         .attr("transform", "rotate(-90)");
      
       //Y-Axis Label Groups
-      var healthcareLabel = labelsGroup.append("text")
+      var healthcareLabel = yLabelsGroup.append("text")
         .attr("x",-chartHeight/2)
         .attr("y",-80)
         .attr("value","poverty") // Value to grab for event listener
         .classed("active", true)
         .text("Lacks Heathcare (%)");
 
-      var smokesLabel = labelsGroup.append("text")
+      var smokesLabel = yLabelsGroup.append("text")
         .attr("x",-chartHeight/2)
         .attr("y",-60)
         .attr("value","smokes") // Value to grab for event listener
         .classed("inactive", true)
         .text("Smokes (%)");
 
-      var obesityLabel = labelsGroup.append("text")
+      var obesityLabel = yLabelsGroup.append("text")
         .attr("x",-chartHeight/2)
         .attr("y",-40)
         .attr("value","obesity") // Value to grab for event listener
@@ -356,7 +355,7 @@ function makeResponsive(){
       //// EVENT LISTENER for x-axis labels 
       //////////////////////////
 
-      labelsGroup.selectAll("text").on("click", function(){
+      xLabelsGroup.selectAll("text").on("click", function(){
         // Get value of selection
         var value = d3.select(this).attr("value");
 
@@ -372,16 +371,16 @@ function makeResponsive(){
           xLinearScale = xScale(personData, chosenXAxis);
 
           // Updates x-axis with transition 
-          // *Calls function renderAxes be used
-          xAxis = renderAxes(xLinearScale, xAxis);
+          // *Calls function renderXAxes be used
+          xAxis = renderXAxes(xLinearScale, xAxis);
 
           // Update circles with new x-values
-          // *Calls function renderCircles be used
-          circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+          // *Calls function renderXCircles be used
+          circlesGroup = renderXCircles(circlesGroup, xLinearScale, chosenXAxis);
 
           // Update circles with new x-values (state abbr)
-          // *Calls function renderCirclesText be used
-          circlesText = renderCirclesText(circlesText, xLinearScale, chosenXAxis);
+          // *Calls function renderXCirclesText be used
+          circlesText = renderXCirclesText(circlesText, xLinearScale, chosenXAxis);
 
           // Change classes when chosenXAxis is selected. 
           // Class 'active' has bold text
@@ -430,7 +429,7 @@ function makeResponsive(){
       //// EVENT LISTENER for y-axis labels 
       //////////////////////////
 
-      labelsGroup.selectAll("text").on("click", function(){
+      yLabelsGroup.selectAll("text").on("click", function(){
         // Get value of selection
         var value = d3.select(this).attr("value");
 
@@ -446,16 +445,16 @@ function makeResponsive(){
           yLinearScale = yScale(personData, chosenYAxis);
 
           // Updates y-axis with transition 
-          // *Calls function renderAxes be used
-          yAxis = renderAxes(yLinearScale, yAxis);
+          // *Calls function renderYAxes be used
+          yAxis = renderYAxes(yLinearScale, yAxis);
 
           // Update circles with new y-values
-          // *Calls function renderCircles be used
-          circlesGroup = renderCircles(circlesGroup, yLinearScale, chosenYAxis);
+          // *Calls function renderYCircles be used
+          circlesGroup = renderYCircles(circlesGroup, yLinearScale, chosenYAxis);
 
           // Update circles with new y-values (state abbr)
-          // *Calls function renderCirclesText be used
-          circlesText = renderCirclesText(circlesText, yLinearScale, chosenYAxis);
+          // *Calls function renderYCirclesText be used
+          circlesText = renderYCirclesText(circlesText, yLinearScale, chosenYAxis);
 
           // Change classes when chosenYAxis is selected. 
           // Class 'active' has bold text
