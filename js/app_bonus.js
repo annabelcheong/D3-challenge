@@ -187,7 +187,7 @@ function makeResponsive(){
   // *Transitions: setting duration 
   //////////////////////
 
-  function updateToolTip(chosenXAxis, circlesGroup) {
+  function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var toolTip = d3.tip()
     .attr("class","d3-tip")
@@ -195,43 +195,39 @@ function makeResponsive(){
     .offset([0,0])
     .html(function(d) { 
 
-    // X-axis labels
-    var xlabel;
-
-    if (chosenXAxis === "poverty") {
-      xlabel = "poverty:";
-      pre_xlabelUnit = " "
-      post_xlabelUnit = "%"
-    }
-    if (chosenXAxis === "age") {
-      xlabel = "age:";
-      pre_xlabelUnit = " "
-      post_xlabelUnit = "years"
-    }
-    else {
-      xlabel = "income";
-      pre_xlabelUnit = "$"
-      post_xlabelUnit = " "
-    }
-    
-    // Y-axis labels
-    var ylabel;
-
-    if (chosenYAxis === "healthcare"){
-      ylabel = "healthcare:";
-    }
-    if (chosenYAxis === "smokes"){
-      ylabel = "smokes:";
-    }
-    else {
-      ylabel = "obese:";
-    }
-
-  // Using d3.tip() to display tooltip
-
+      // X-axis labels
+      var xlabel;
+      if (chosenXAxis === "poverty") {
+        xlabel = "poverty:";
+        pre_xlabelUnit = " "
+        post_xlabelUnit = "%"
+      }
+      if (chosenXAxis === "age") {
+        xlabel = "age:";
+        pre_xlabelUnit = " "
+        post_xlabelUnit = "years"
+      }
+      else {
+        xlabel = "income";
+        pre_xlabelUnit = "$"
+        post_xlabelUnit = "k"
+      }
       
-        return (`<b>${d.state}</b><br>${xlabel}: ${pre_xlabelUnit} ${d[chosenXAxis]} ${post_xlabelUnit}<br>
-        ${ylabel} ${d[chosenYAxis]} %`);
+      // Y-axis labels
+      var ylabel;
+      if (chosenYAxis === "healthcare"){
+        ylabel = "healthcare:";
+      }
+      if (chosenYAxis === "smokes"){
+        ylabel = "smokes:";
+      }
+      else {
+        ylabel = "obese:";
+      }
+
+    // Using d3.tip() to display tooltip
+    return (`<b>${d.state}</b><br>${xlabel}: ${pre_xlabelUnit}${d[chosenXAxis]} ${post_xlabelUnit}<br>
+      ${ylabel} ${d[chosenYAxis]} %`);
 
     });
   
@@ -424,7 +420,7 @@ function makeResponsive(){
       //////// TOOLTIP ////////
       // Update the tooltip (Call function updateToolTip)
       /////////////////////////
-      var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+      var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
 
 
