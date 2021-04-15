@@ -212,7 +212,7 @@ function makeResponsive(){
       else { 
         xlabel = "Income:";
         pre_xlabelUnit = "$";
-        post_xlabelUnit = "k";
+        post_xlabelUnit = " ";
       }
       
       // Y-axis labels
