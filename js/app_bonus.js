@@ -47,9 +47,9 @@ function makeResponsive(){
   // Define the chart's margins as an object
   var margin = {
     top: 60,
-    right: 80,
+    right: 80,  
     bottom: 100,
-    left: 100
+    left: 100 
   };
 
   // Define dimensions of the chart area
