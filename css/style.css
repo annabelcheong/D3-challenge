@@ -10,7 +10,14 @@ html {
 }
 
 .heading1 {
-  text-align: left;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: 20px; 
+  padding-top: 10px;
+  font-family: Zapf Chancery, cursive;
+  color: rgb(0, 0, 0);
+  background-color: rgb(159, 196, 231);
+  background-image: linear-gradient(to right bottom,  rgba(95, 116, 128, 0.8), rgba(196, 220, 243, 0.8));
 }
 
 .heading2 {
@@ -24,6 +31,7 @@ body {
 
 .article {
   text-align: left;
+  margin-left: 100px;
 }
 
 #footer {
