@@ -262,12 +262,6 @@ function makeResponsive(){
 
    return circlesGroup, circlesText;
    
-
-  
-
-
-
-
   };
 
   //////// DATA SOURCE (CSV FILE) ////////
@@ -386,14 +380,6 @@ function makeResponsive(){
         .classed("inactive", true)
         .text("Household Income (Median)");
 
-      // REMOVE FOLLOWING (THIS CODE PROVIDES NO SELECTION OPTION FOR X-AXIS)
-      // chartGroup.append("text")
-      // .attr("x", chartWidth/2)
-      // .attr("y", chartHeight + 40)   
-      // .text("In Poverty (%)")
-      // .attr("class", "aText")
-      // .attr("font-weight","700");
-
       //////////////////////////
       //// append y axis labels
       //////////////////////////
@@ -423,16 +409,6 @@ function makeResponsive(){
         .attr("value","obesity") // Value to grab for event listener
         .classed("inactive", true)
         .text("Obese (%)");
-
-      // REMOVE FOLLOWING *THIS CODE PROVIDES NO SELECTION OPTION FOR Y-AXIS)
-      // chartGroup.append("text")
-      // .attr("transform", "rotate(-90)")
-      // .attr("y", 0 - margin.left + 10) //x-coord location
-      // .attr("x", 0 - (chartHeight - chartHeight/3)) //y-coord location 
-      // .attr("dy", "1em")
-      // .text("Lacks Healthcare (%)")
-      // .attr("font-weight","700");
-
   
       //////// TOOLTIP ////////
       // Update the tooltip (Call function updateToolTip)
@@ -519,7 +495,6 @@ function makeResponsive(){
         }
        
       }); 
-
 
       //////////////////////////
       //// EVENT LISTENER for y-axis labels 
